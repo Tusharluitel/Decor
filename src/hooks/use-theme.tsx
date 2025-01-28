@@ -5,8 +5,9 @@ type Theme = 'light' | 'dark';
 
 export const useTheme = () => {
   // Get initial theme synchronously to avoid flicker
-  const getInitialTheme = (): Theme => {
+  const getInitialTheme = (): any => {
     // Check localStorage first
+    if(typeof window === 'undefined') return null;
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
       return savedTheme;

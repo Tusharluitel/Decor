@@ -145,7 +145,7 @@ const CategoryListTable : React.FC<{data : [] , sn : number , mutate : () => voi
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild>
                               <DeleteInstances
-                                  url={`${APP_BASE_URL}/api/operations/delete`}
+                                  url={`${APP_BASE_URL}/api/category/delete`}
                                   mutate={mutate}
                                   ids={[row?.original?.id]}
                               />

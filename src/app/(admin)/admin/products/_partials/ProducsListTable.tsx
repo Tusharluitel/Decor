@@ -149,6 +149,7 @@ const ProductsListTable : React.FC<{data : [] , sn : number , mutate : () => voi
               showCheckbox={false}
               mutate={mutate}
               isLoading={isloading}
+              uploadURL={`${APP_BASE_URL}/api/product/bulk-upload`}
               actionDropdown={{
                   id: "actions",
                   enableHiding: false,
@@ -171,7 +172,7 @@ const ProductsListTable : React.FC<{data : [] , sn : number , mutate : () => voi
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild>
                               <DeleteInstances
-                                  url={`${APP_BASE_URL}/api/operations/delete`}
+                                  url={`${APP_BASE_URL}/api/product/delete`}
                                   mutate={mutate}
                                   ids={[row?.original?.id]}
                               />

@@ -12,6 +12,8 @@ interface User {
   email_verified_at: string | null;
   created_at: string | null;
   updated_at: string | null;
+  image_path : string
+
 }
 
 interface AuthResponse {
@@ -20,13 +22,13 @@ interface AuthResponse {
   data: User;
   role: string;
   token: string;
+  image_path : string
 }
 
 interface AuthContextProps {
   user: User | null;
   role: string | null;
   loading: boolean;
-  fetchUser: () => void;
   logout: () => void;
 }
 
@@ -38,7 +40,6 @@ const AuthContext = createContext<AuthContextProps>({
   user: null,
   role: null,
   loading: true,
-  fetchUser: () => {},
   logout: () => {},
 });
 
@@ -46,50 +47,11 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [role, setRole] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const handleAuthResponse = (response: AuthResponse) => {
-    setUser(response.data);
-    setRole(response.role);
-    Cookies.set("IDP_ACCESS_TOKEN", response.token, { domain: process.env.APP_DOMAIN });
-  };
+  
 
-  const fetchUser = async () => {
-    const token = Cookies.get("IDP_ACCESS_TOKEN");
-    if (!token) {
-      // router.replace(routes.ADMIN_LOGIN);
-      return;
-    }
-
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_IDP_HOST}/api/get-user-by-token`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch user');
-      }
-
-      const data = await response.json();
-      setUser(data.data);
-      setRole(data.role);
-    } catch (error) {
-      console.error("Fetch error:", error);
-      logout();
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (!user) {
-      fetchUser();
-    }
-  }, []);
+  
 
   const logout = async () => {
     const token = Cookies.get("IDP_ACCESS_TOKEN");
@@ -103,7 +65,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
-      Cookies.remove("IDP_ACCESS_TOKEN", { domain: process.env.APP_DOMAIN });
+      Cookies.remove("DECOR_ACCESS_TOKEN", { domain: process.env.APP_DOMAIN });
       setUser(null);
       setRole(null);
       router.push(routes.ADMIN_LOGIN);
@@ -116,7 +78,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         user,
         role,
         loading: !user && loading,
-        fetchUser,
         logout,
       }}
     >

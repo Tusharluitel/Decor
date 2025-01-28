@@ -14,13 +14,16 @@ import { PlusIcon } from "lucide-react"
 import { useState } from "react"
 import ProductModal from "./_partials/ProductsActionModal"
 import ProductsListTable from "./_partials/ProducsListTable"
+import { useSearchParams } from "next/navigation"
+import Paginator from "@/components/common/Pagination/Paginator"
 
-const CategoriesIndexPage : React.FC = () => {
+const ProductsIndexPage : React.FC = () => {
 
-  const [showCategoryModal , setShowCategoryModal] = useState<boolean>(false)
+  const [showProductModal , setShowProductModal] = useState<boolean>(false);
+  const searchParams = useSearchParams()
 
-  const CategoryListUL = `${APP_BASE_URL}/api/product/list`
-  const { data : CategoriesList , mutate , isLoading } = useSWR(CategoryListUL , adminFetcher);
+  const ProductListUL = `${APP_BASE_URL}/api/product/list${searchParams?.toString() == '' ? '' : `?${searchParams?.toString()}`}`
+  const { data : ProductsList , mutate , isLoading } = useSWR(ProductListUL , adminFetcher);
 
   return(
     <>
@@ -37,23 +40,29 @@ const CategoriesIndexPage : React.FC = () => {
                   ]}
                 />
               </div>
-              <Button onClick={() => setShowCategoryModal(true)}>
+              <Button onClick={() => setShowProductModal(true)}>
                 <PlusIcon />
                 Add Product
               </Button>
             </div>
             <ContentContainer>
               <ProductsListTable 
-                data={CategoriesList?.data}
+                data={ProductsList?.data}
                 sn={0}
                 mutate={mutate}
                 isloading={isLoading}
               />
+              <Paginator
+                currentPage={ProductsList?.meta?.current_page}
+                totalPages={ProductsList?.meta?.last_page}
+                mutate={mutate}
+                showPreviousNext
+              />
             </ContentContainer>
             <ProductModal 
               mode="add"
-              isOpen={showCategoryModal}
-              onOpenChange={setShowCategoryModal}
+              isOpen={showProductModal}
+              onOpenChange={setShowProductModal}
               mutate={mutate}
             />
           </AdminCommonContainer>
@@ -63,4 +72,4 @@ const CategoriesIndexPage : React.FC = () => {
   )
 }
 
-export default  CategoriesIndexPage
+export default  ProductsIndexPage

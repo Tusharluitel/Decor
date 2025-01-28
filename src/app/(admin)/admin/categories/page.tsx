@@ -14,12 +14,15 @@ import { Button } from "@/components/ui/button"
 import { PlusIcon } from "lucide-react"
 import { useState } from "react"
 import OperationCategoryModal from "./_partials/CategoryActionModal"
+import { useSearchParams } from "next/navigation"
+import Paginator from "@/components/common/Pagination/Paginator"
 
 const CategoriesIndexPage : React.FC = () => {
 
   const [showCategoryModal , setShowCategoryModal] = useState<boolean>(false)
+  const searchParams = useSearchParams()
 
-  const CategoryListUL = `${APP_BASE_URL}/api/category/list`
+  const CategoryListUL = `${APP_BASE_URL}/api/category/list${searchParams?.toString() == '' ? '' : `?${searchParams?.toString()}`}`
   const { data : CategoriesList , mutate , isLoading } = useSWR(CategoryListUL , adminFetcher);
 
   return(
@@ -48,6 +51,12 @@ const CategoriesIndexPage : React.FC = () => {
                 sn={0}
                 mutate={mutate}
                 isloading={isLoading}
+              />
+              <Paginator 
+                currentPage={CategoriesList?.meta?.current_page}
+                totalPages={CategoriesList?.meta?.last_page}
+                mutate={mutate}
+                showPreviousNext
               />
             </ContentContainer>
             <OperationCategoryModal 

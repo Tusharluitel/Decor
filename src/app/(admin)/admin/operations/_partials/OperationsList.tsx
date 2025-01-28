@@ -113,7 +113,7 @@ const OperationListTable : React.FC<{data : [] , sn : number , mutate : () => vo
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild>
                               <DeleteInstances
-                                  url={`${APP_BASE_URL}/api/operations/delete`}
+                                  url={`${APP_BASE_URL}/api/operations/delete/${row?.original?.id}`}
                                   mutate={mutate}
                                   ids={[row?.original?.id]}
                               />

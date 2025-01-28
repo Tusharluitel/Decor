@@ -14,11 +14,15 @@ import { APP_BASE_URL } from "@/lib/constants"
 import useSWR from "swr"
 import { adminFetcher } from "@/helpers/fetch.helper"
 import OperationListTable from "./_partials/OperationsList"
+import { useSearchParams } from "next/navigation"
+import Paginator from "@/components/common/Pagination/Paginator"
 
 const OpearationIndexPage : React.FC = () => {
   
+  const searchParams = useSearchParams()
   const [showOperationModal , setShowOperationModal] = useState<boolean>(false);
-  const getAllOperationsList = `${APP_BASE_URL}/api/operations/list`
+  const getAllOperationsList = 
+    `${APP_BASE_URL}/api/operations/list${searchParams?.toString() == '' ? '' : `?${searchParams?.toString()}`}`
   const { data : AllOperationsList , mutate } = useSWR(getAllOperationsList , adminFetcher);
 
   
@@ -48,6 +52,12 @@ const OpearationIndexPage : React.FC = () => {
                 sn={0}
                 mutate={mutate}
                 isloading={!AllOperationsList}
+              />
+              <Paginator 
+                currentPage={AllOperationsList?.meta?.current_page}
+                totalPages={AllOperationsList?.meta?.last_page}
+                mutate={mutate}
+                showPreviousNext
               />
             </ContentContainer>
             <OperationActionModal 

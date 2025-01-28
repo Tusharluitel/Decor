@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/hooks/use-theme";
 
 interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -48,6 +49,8 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
     ref
   ) => {
     const inputId = id || label?.toLowerCase().replace(/\s+/g, "-");
+    const {theme} = useTheme()
+
 
     return (
       <div className={cn(
@@ -61,7 +64,8 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
             className={cn(
               labelPosition === "left" && "text-right",
               error && "text-destructive",
-              labelClassName
+              labelClassName,
+              'font-medium'
             )}
           >
             {label}
@@ -81,6 +85,7 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
             className={cn(
               error && "border-destructive",
               className , 
+              type === 'date' && theme,
               'py-[20px]'
             )}
             aria-describedby={

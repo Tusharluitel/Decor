@@ -9,9 +9,9 @@ const HeroSection : React.FC = () => {
               <div className="space-y-6 py-8">
                 <h1 className="text-5xl font-bold">Transform Your Space<br/><span className="text-[#FFA500]">With Expert Design</span></h1>
                 <p className="text-lg">Creating beautiful, functional spaces that reflect your unique style and personality</p>
-                <button className="bg-[#FFA500] text-white px-8 py-3 rounded-md hover:bg-[#FF8C00] transition">
+                {/* <button className="bg-[#FFA500] text-white px-8 py-3 rounded-md hover:bg-[#FF8C00] transition">
                   Get Started
-                </button>
+                </button> */}
               </div>
               <div className="relative">
                 <div className="absolute inset-0 bg-[#FFA500] opacity-20 rounded-lg"></div>

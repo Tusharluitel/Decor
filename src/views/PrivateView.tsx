@@ -1,8 +1,10 @@
+'use client'
 import AppFooter from "@/components/common/Footer/AppFooter"
 import AppHeader from "@/components/common/Header/AppHeader"
 import { AppSideBar } from "@/components/common/Sidebar/AppSidebar"
 import AdminContextProvider from "@/context/AdminContextProvider"
 import { useSidebar } from "@/hooks/use-sidebar"
+import isAuthenticated from "@/lib/isAuthenticated"
 import { cn } from "@/lib/utils"
 
 const PrivateView : React.FC<{
@@ -40,4 +42,4 @@ const PrivateView : React.FC<{
   )
 }
 
-export default PrivateView
+export default isAuthenticated(PrivateView)

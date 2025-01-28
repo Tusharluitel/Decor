@@ -22,7 +22,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { useContext } from "react";
-import { AuthContext } from "@/helpers/contexts/AuthContextProvider";
+import { AuthContext } from "@/context/AuthContextProvider";
 
 export function UserNav() {
 

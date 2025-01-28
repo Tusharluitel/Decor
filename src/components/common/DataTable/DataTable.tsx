@@ -37,7 +37,7 @@ import { DeleteInstances } from "../DeleteInstances/DeleteInstanes"
 import Download from "@/components/elements/Download"
 
 const useDebounce = (callback: Function, delay: number) => {
-  const timeoutRef = React.useRef<NodeJS.Timeout>();
+  const timeoutRef = React.useRef<NodeJS.Timeout>(null);
 
   React.useEffect(() => {
     return () => {

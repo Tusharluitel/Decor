@@ -1,8 +1,6 @@
 import AsyncSelect from 'react-select/async';
 import React, { useEffect, useRef } from 'react';
-import { ChoiceType } from '@/helpers/commonSchema/common.schema';
 import { Label } from '../ui/label';
-import { StylesConfig } from 'node_modules/react-select/dist/declarations/src';
 
 interface SelectFieldProps {
   className?: string;
@@ -20,7 +18,7 @@ interface SelectFieldProps {
   clearSelectValue?: boolean;
   setClearSelectValue?: React.Dispatch<React.SetStateAction<boolean>>;
   isDisabled?: boolean;
-  onChange?: (choice: ChoiceType) => void | any;
+  onChange?: (choice: any) => void | any;
   loadOptions? :  (inputValue: string, callback: (options: any[]) => void) => Promise<void> | any
   placeHolder? : string
   labelClassName? : string
@@ -104,20 +102,25 @@ const AsyncSelectField: React.FC<SelectFieldProps> = ({
     })
   };
 
-  const colourStyles: StylesConfig<any> = {
-    control: (styles) => ({ ...styles, backgroundColor: 'white' }),
-    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+  const colourStyles: any = {
+    control: (styles: any) => ({ ...styles, backgroundColor: 'white' }),
+    option: (
+      styles: any,
+      { data, isDisabled, isFocused, isSelected }: any // Set `any` for the second parameter
+    ) => {
       return {
         ...styles,
-        backgroundColor:'hsl(var(--background))',
-        color:'#fff'
+        backgroundColor: 'hsl(var(--background))',
+        color: '#fff',
       };
     },
-    
-    // input: (styles) => ({ ...styles, ...dot() }),
-    // placeholder: (styles) => ({ ...styles, ...dot('#ccc') }),
-    // singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
-  };  
+  
+    // If required, you can re-enable these and assign `any` to their parameters as well:
+    // input: (styles: any) => ({ ...styles, ...dot() }),
+    // placeholder: (styles: any) => ({ ...styles, ...dot('#ccc') }),
+    // singleValue: (styles: any, { data }: any) => ({ ...styles, ...dot(data.color) }),
+  };
+   
 
   return (
     <div className={`${wrapperClassName}`}>
@@ -152,7 +155,6 @@ const AsyncSelectField: React.FC<SelectFieldProps> = ({
           name={name}
           defaultValue={defaultValue}
           placeholder={placeHolder}
-          isDiabled={isDisabled}
 
         />
         <span className="block text-error-500 text-xs my-1">

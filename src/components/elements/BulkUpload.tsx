@@ -14,66 +14,84 @@ import { fetchHeader } from '@/helpers/fetch.helper';
 import { useToast } from '@/hooks/use-toast';
 
 const BulkUpload = ({
-  submitUrl , 
+  submitUrl, 
   mutate
-} : {
-  submitUrl : string
-  mutate : () => void
+}: {
+  submitUrl: string;
+  mutate: () => void;
 }) => {
-  const { toast } = useToast()
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedExcelFile, setSelectedExcelFile] = useState<File | null>(null);
+  const [selectedZipFile, setSelectedZipFile] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
-  const fileInputRef = useRef<any>(null);
+  const excelFileInputRef = useRef<any>(null);
+  const zipFileInputRef = useRef<any>(null);
 
-  const handleFileChange = (event : ChangeEvent<HTMLInputElement>) => {
+  const handleExcelFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setSelectedFile(file);
+      setSelectedExcelFile(file);
+    }
+  };
+
+  const handleZipFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedZipFile(file);
     }
   };
 
   const handleSubmit = async () => {
-    if (!selectedFile) return;
+    if (!selectedExcelFile && !selectedZipFile) return;
 
     try {
       setIsLoading(true);
       
       const formData = new FormData();
-      formData.append('file', selectedFile);
+      if (selectedExcelFile) {
+        formData.append('product_csv', selectedExcelFile);
+      }
+      if (selectedZipFile) {
+        formData.append('zip_file', selectedZipFile);
+      }
 
       const response = await fetch(submitUrl, {
         method: 'POST',
         body: formData,
-        headers : fetchHeader()
-        
+        headers: fetchHeader()
       });
 
       if (!response.ok) {
         throw new Error('Upload failed');
       }
-      const data = await response.json()
+      const data = await response.json();
 
       // Reset and close on success
-      setSelectedFile(null);
+      setSelectedExcelFile(null);
+      setSelectedZipFile(null);
       setOpen(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+      if (excelFileInputRef.current) {
+        excelFileInputRef.current.value = '';
+      }
+      if (zipFileInputRef.current) {
+        zipFileInputRef.current.value = '';
       }
       toast({
-        title : 'Sucessfully Uploaded !',
-        description : data?.message,
-        variant : 'success'
-      })
+        title: 'Successfully Uploaded!',
+        description: data?.message,
+        variant: 'success'
+      });
       
       // You might want to trigger a refresh of the employee list here
+      mutate();
       
-    } catch (error : any) {
+    } catch (error: any) {
       toast({
-        title : 'Upload failed',
-        description : error?.message,
-        variant : 'destructive'
-      })
+        title: 'Upload failed',
+        description: error?.message,
+        variant: 'destructive'
+      });
       // You might want to show an error message to the user here
     } finally {
       setIsLoading(false);
@@ -85,33 +103,47 @@ const BulkUpload = ({
       <DialogTrigger asChild>
         <Button variant={'outline'} className='justify-center'>
           <Upload className="mr-2 h-4 w-4" />
-          Import Employees
+          Import Products
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Upload Employee Data</DialogTitle>
+          <DialogTitle>Upload Product Data</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="file">Select File</Label>
-            
+            <Label htmlFor="excelFile">Select Excel File</Label>
             <Input
               id="file"
               type="file"
               accept=".csv,.xlsx,.xls"
-              onChange={handleFileChange}
-              ref={fileInputRef}
+              onChange={handleExcelFileChange}
+              ref={excelFileInputRef}
             />
+            {selectedExcelFile && (
+              <p className="text-sm text-muted-foreground">
+                Selected Excel: {selectedExcelFile.name}
+              </p>
+            )}
           </div>
-          {selectedFile && (
-            <p className="text-sm text-muted-foreground">
-              Selected: {selectedFile.name}
-            </p>
-          )}
+          <div className="space-y-2">
+            <Label htmlFor="zipFile">Select ZIP Folder</Label>
+            <Input
+              id="zipFile"
+              type="file"
+              accept=".zip"
+              onChange={handleZipFileChange}
+              ref={zipFileInputRef}
+            />
+            {selectedZipFile && (
+              <p className="text-sm text-muted-foreground">
+                Selected ZIP: {selectedZipFile.name}
+              </p>
+            )}
+          </div>
           <Button 
             onClick={handleSubmit}
-            disabled={!selectedFile || isLoading}
+            disabled={(!selectedExcelFile && !selectedZipFile) || isLoading}
             className="w-full"
             isLoading={isLoading}
           >

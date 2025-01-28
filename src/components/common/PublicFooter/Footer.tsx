@@ -1,11 +1,20 @@
+'use client'
 import CommonContainer from "@/components/elements/CommonContainer";
+import { defaultFetcher } from "@/helpers/fetch.helper";
+import { APP_BASE_URL } from "@/lib/constants";
+import { routes } from "@/lib/routes";
 import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 import Link from "next/link";
+import useSWR from "swr";
 
 const AppFooter : React.FC = () => {
+  const serviceListURL = `${APP_BASE_URL}/api/operations/list`
+  const { data : serviceList } = useSWR(serviceListURL , defaultFetcher);
+
+  console.log(serviceList)
   return (
     <>
-      <footer className="bg-[#1B365D] text-white py-16">
+      <footer className="bg-[#1B365D] text-white py-16 px-4">
         <CommonContainer>
           <div className="grid grid-cols-4 gap-8">
             <div>
@@ -17,27 +26,27 @@ const AppFooter : React.FC = () => {
             <div>
               <h3 className="text-xl font-bold mb-4">Services</h3>
               <div className="space-y-2">
-                <Link href="#" className="block hover:text-[#FFA500]">
-                  Interior Design
-                </Link>
-                <Link href="#" className="block hover:text-[#FFA500]">
-                  Space Planning
-                </Link>
-                <Link href="#" className="block hover:text-[#FFA500]">
-                  Decor Consultation
-                </Link>
+                {
+                  serviceList?.data?.map((service : Record<string,any> , index : number) => {
+                    return(
+                      <>
+                        <Link href={routes.OPERATIONS_INDIVIDUAL.replace(':id' , service?.id)} className="block hover:text-[#FFA500]">
+                          {service?.title}
+                        </Link>
+                      </>
+                    )
+                  })
+                }
+                
               </div>
             </div>
             <div>
               <h3 className="text-xl font-bold mb-4">Quick Links</h3>
               <div className="space-y-2">
-                <Link href="#" className="block hover:text-[#FFA500]">
-                  Portfolio
-                </Link>
-                <Link href="#" className="block hover:text-[#FFA500]">
+                <Link href={routes?.ABOUT_INDEX} className="block hover:text-[#FFA500]">
                   About Us
                 </Link>
-                <Link href="#" className="block hover:text-[#FFA500]">
+                <Link href={routes?.CONTACT_INDEX} className="block hover:text-[#FFA500]">
                   Contact
                 </Link>
               </div>

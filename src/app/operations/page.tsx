@@ -1,3 +1,4 @@
+'use client'
 import { routes } from "@/lib/routes";
 import { useRouter } from "next/navigation"
 import { useEffect } from "react";
@@ -12,7 +13,7 @@ const OperationIndexPage = () => {
 
     return(
         <>
-
+            
         </>
     )
 }

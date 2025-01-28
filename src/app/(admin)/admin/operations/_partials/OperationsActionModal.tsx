@@ -121,7 +121,7 @@ const OperationActionModal: React.FC<OperationActionModalProps> = ({
         <form onSubmit={handleFormSubmit}>
           <DialogHeader>
             <DialogTitle>
-              {mode === 'add' ? 'Add New Design' : 'Edit Design'}
+              {mode === 'add' ? 'Add New Operation' : 'Edit Operation'}
             </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 mt-6">
@@ -163,7 +163,7 @@ const OperationActionModal: React.FC<OperationActionModalProps> = ({
           </div>
           <DialogFooter>
             <Button type="submit" className="mt-8" disabled={isLoading} isLoading={isLoading}>
-              {mode === 'add' ? 'Create Design' : 'Save Changes'}
+              {mode === 'add' ? 'Create Operation' : 'Save Changes'}
             </Button>
           </DialogFooter>
         </form>

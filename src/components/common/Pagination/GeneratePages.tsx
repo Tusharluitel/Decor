@@ -5,7 +5,7 @@ export const generatePaginationLinks = (
   totalPages: number,
   onPageChange: (page: number) => void
 ) => {
-  const pages: JSX.Element[] = [];
+  const pages: any = [];
   if (totalPages <= 6) {
     for (let i = 1; i <= totalPages; i++) {
       pages.push(
