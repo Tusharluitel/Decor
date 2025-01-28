@@ -9,17 +9,17 @@ import { APP_BASE_URL } from "@/lib/constants"
 import { routes } from "@/lib/routes"
 import PrivateView from "@/views/PrivateView"
 import useSWR from "swr"
-import CategoryListTable from "./_partials/CategoryListTable"
 import { Button } from "@/components/ui/button"
 import { PlusIcon } from "lucide-react"
 import { useState } from "react"
-import OperationCategoryModal from "./_partials/CategoryActionModal"
+import ProductModal from "./_partials/ProductsActionModal"
+import ProductsListTable from "./_partials/ProducsListTable"
 
 const CategoriesIndexPage : React.FC = () => {
 
   const [showCategoryModal , setShowCategoryModal] = useState<boolean>(false)
 
-  const CategoryListUL = `${APP_BASE_URL}/api/category/list`
+  const CategoryListUL = `${APP_BASE_URL}/api/product/list`
   const { data : CategoriesList , mutate , isLoading } = useSWR(CategoryListUL , adminFetcher);
 
   return(
@@ -29,28 +29,28 @@ const CategoriesIndexPage : React.FC = () => {
           <AdminCommonContainer>
             <div className="flex justify-between">
               <div>
-                <PageHeading>Categories</PageHeading>
+                <PageHeading>Products</PageHeading>
                 <BreadCrumbNav 
                   breadCrumbItems={[
                     {title : 'Dashboard' , href:routes.ADMIN_DASHBOARD},
-                    {title : 'Categories' , href:routes.CATEGORIES_INDEX},
+                    {title : 'Products' , href:routes.PRODUCTS_INDEX},
                   ]}
                 />
               </div>
               <Button onClick={() => setShowCategoryModal(true)}>
                 <PlusIcon />
-                Add Category
+                Add Product
               </Button>
             </div>
             <ContentContainer>
-              <CategoryListTable 
+              <ProductsListTable 
                 data={CategoriesList?.data}
                 sn={0}
                 mutate={mutate}
                 isloading={isLoading}
               />
             </ContentContainer>
-            <OperationCategoryModal 
+            <ProductModal 
               mode="add"
               isOpen={showCategoryModal}
               onOpenChange={setShowCategoryModal}

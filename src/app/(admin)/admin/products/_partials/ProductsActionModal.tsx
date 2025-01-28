@@ -8,13 +8,18 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import Loader from "@/components/elements/Loader";
 import FormInput from "@/components/forms/InputFields";
 import ImageUpload from "@/components/elements/ImageUpload";
 import { APP_BASE_URL } from "@/lib/constants";
 import { fetchHeader } from "@/helpers/fetch.helper";
+import { defaultFetcher } from "@/helpers/fetch.helper";
+import useSWR from "swr";
+import { collectionToOptions } from "@/helpers/option.helper";
+import AsyncSelectField from "@/components/forms/AsyncSelectField";
+import RichTextEditor from "@/components/elements/RichTextEditor";
 
-interface OperationActionModalProps {
+
+interface ProductModalProps {
   mode: 'add' | 'edit';
   initialData?: any;
   mutate: () => void;
@@ -22,7 +27,7 @@ interface OperationActionModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const OperationActionModal: React.FC<OperationActionModalProps> = ({
+const ProductModal: React.FC<ProductModalProps> = ({
   mode,
   initialData,
   mutate,
@@ -34,6 +39,12 @@ const OperationActionModal: React.FC<OperationActionModalProps> = ({
   const [error, setError] = useState<Record<string, any>>({});
   const { toast } = useToast();
 
+  // Fetch categories list for dropdown
+  const categoriesListURL = `${APP_BASE_URL}/api/category/list`;
+  const { data: categoriesList } = useSWR(categoriesListURL, defaultFetcher);
+  const categoriesListOptions = categoriesList?.data?.length ? 
+    collectionToOptions(categoriesList.data) as any[] : [];
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { id, value } = e.target;
     setFormData((prev) => ({
@@ -42,32 +53,60 @@ const OperationActionModal: React.FC<OperationActionModalProps> = ({
     }));
   };
 
-  const handleImageChange = (file: File) => {
-    // Add the file to formData
+  const handleSelectChange = (key: string, value: string) => {
     setFormData(prev => ({
       ...prev,
-      imageFile: file
+      [key]: value
     }));
+  };
+
+  const handleSpecificationsChange = (content: string) => {
+    setFormData(prev => ({
+      ...prev,
+      specifications: content
+    }));
+  };
+
+  const loadCategories = async (
+    inputValue: string,
+    callback: (options: any[]) => void
+  ) => {
+    try {
+      const response = await fetch(
+        `${APP_BASE_URL}/api/category/list?search=${inputValue}`,
+        { headers: fetchHeader() }
+      );
+      const data = await response.json();
+      const options = collectionToOptions(data?.data);
+      callback(options as any);
+    } catch (error) {
+      callback([]);
+    }
   };
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setLoading(true);
     
-    // Create FormData and append all values
     const submitFormData = new FormData();
-    submitFormData.append('title', formData.title || '');
-    submitFormData.append('description', formData.description || '');
-    if (formData.imageFile) {
-      submitFormData.append('image', formData.imageFile);
-    }
+    Object.entries(formData).forEach(([key, value]: [string, any]) => {
+      if (value) {
+        if (key === 'image') {
+          if (value instanceof File) {
+            submitFormData.append(key, value);
+          }
+        } else {
+          submitFormData.append(key, value);
+        }
+      }
+    });
 
     try {
-      const submitURL = `${APP_BASE_URL}/api/operations/${mode === 'edit' ? `update/${initialData?.id}` : 'store'}`;
+      const submitURL = `${APP_BASE_URL}/api/product/${mode === 'edit' ? `update/${initialData?.id}` : 'store'}`;
       const res = await fetch(submitURL, {
         method: 'POST',
         body: submitFormData,
-        headers : fetchHeader()
+        headers: fetchHeader()
       });
       const data = await res.json();
 
@@ -102,8 +141,10 @@ const OperationActionModal: React.FC<OperationActionModalProps> = ({
   useEffect(() => {
     if (initialData) {
       setFormData({
-        title: initialData?.title,
+        name: initialData?.name,
         description: initialData?.description,
+        category_id: initialData?.category_id?.toString(),
+        specifications: initialData?.specifications,
       });
     }
   }, [initialData]);
@@ -115,55 +156,83 @@ const OperationActionModal: React.FC<OperationActionModalProps> = ({
     }
   }, [isOpen]);
 
+  const defaultCategoryValue = formData?.category_id ? 
+    categoriesListOptions.find((option: any) => option.value == formData.category_id) : 
+    null;
+
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] max-h-screen overflow-y-auto custom-scrollbar">
+      <DialogContent className="sm:max-w-[700px] max-h-screen overflow-y-auto custom-scrollbar">
         <form onSubmit={handleFormSubmit}>
           <DialogHeader>
             <DialogTitle>
-              {mode === 'add' ? 'Add New Design' : 'Edit Design'}
+              {mode === 'add' ? 'Add New Product' : 'Edit Product'}
             </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 mt-6">
-            <div className="">
+            <div>
               <FormInput
-                label="Title"
-                id="title"
-                name="title"
+                label="Name"
+                id="name"
+                name="name"
                 labelPosition="top"
-                value={formData?.title ?? ''}
+                value={formData?.name ?? ''}
                 onChange={handleInputChange}
-                error={error?.title}
-                placeholder="Enter title"
+                error={error?.name}
+                placeholder="Enter product name"
                 required
               />
             </div>
-            <div className="">
+            <div>
               <FormInput
                 label="Description"
                 id="description"
                 name="description"
                 labelPosition="top"
                 value={formData?.description ?? ''}
-                error={error?.description}
                 onChange={handleInputChange}
+                error={error?.description}
                 placeholder="Enter description"
               />
             </div>
-            <div className="">
+            <div>
+              <AsyncSelectField
+                label="Category"
+                id="category_id"
+                labelStyle="label-top"
+                name="category_id"
+                value={formData.category_id}
+                defaultValue={defaultCategoryValue}
+                defaultOptions={categoriesListOptions}
+                loadOptions={loadCategories}
+                fieldErrors={error?.category_id}
+                onChange={(e) => handleSelectChange('category_id', e.value as string)}
+                required
+              />
+            </div>
+            <div>
               <label className="text-sm font-medium mb-2 block">Image</label>
               <ImageUpload
                 defaultImageUrl={initialData?.image_path || ''}
-                onImageChange={handleImageChange}
+                onImageChange={(file) => 
+                  setFormData(prev => ({ ...prev, image: file }))
+                }
               />
               {error?.image && (
-                <p className="text-sm text-red-500 mt-1">{error.image}</p>
+                <p className="text-sm text-red-500 mt-1">{error?.image}</p>
               )}
             </div>
+            <RichTextEditor
+                label="Specifications"
+                value={formData?.specifications || ''}
+                onChange={handleSpecificationsChange}
+                error={error?.specifications}
+            />
           </div>
           <DialogFooter>
             <Button type="submit" className="mt-8" disabled={isLoading} isLoading={isLoading}>
-              {mode === 'add' ? 'Create Design' : 'Save Changes'}
+              {mode === 'add' ? 'Create Product' : 'Save Changes'}
             </Button>
           </DialogFooter>
         </form>
@@ -172,4 +241,4 @@ const OperationActionModal: React.FC<OperationActionModalProps> = ({
   );
 };
 
-export default OperationActionModal;
+export default ProductModal;

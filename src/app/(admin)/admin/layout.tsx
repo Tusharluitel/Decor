@@ -1,4 +1,5 @@
 'use client'
+import { Toaster } from "@/components/ui/toaster"
 import { AuthProvider } from "@/context/AuthContextProvider"
 
 const AdminLayout : React.FC<{
@@ -9,7 +10,10 @@ const AdminLayout : React.FC<{
   return(
     <>
       <AuthProvider>
-        {children}
+        <>
+          {children}
+          <Toaster />
+        </>
       </AuthProvider>
     </>
   )

@@ -8,13 +8,14 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 }  from "@/components/ui/dropdown-menu"
-import { useState } from "react"
-import OperationActionModal from "./OperationsActionModal"
+import { useEffect, useState } from "react"
 import { DeleteInstances } from "@/components/common/DeleteInstances/DeleteInstanes"
 import { APP_BASE_URL } from "@/lib/constants"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
+import OperationCategoryModal from "./CategoryActionModal"
+import { Badge } from "@/components/ui/badge"
 
-const OperationListTable : React.FC<{data : [] , sn : number , mutate : () => void , isloading : boolean}> = ({
+const CategoryListTable : React.FC<{data : [] , sn : number , mutate : () => void , isloading : boolean}> = ({
     data , 
     sn , 
     mutate,
@@ -33,7 +34,7 @@ const OperationListTable : React.FC<{data : [] , sn : number , mutate : () => vo
             ),
         },
         {
-            accessorKey: "title",
+            accessorKey: "name",
             header: ({ column } : { column : any }) => {
                 return (
                     <Button
@@ -41,7 +42,7 @@ const OperationListTable : React.FC<{data : [] , sn : number , mutate : () => vo
                         className="!px-0"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                         >
-                            Title
+                            Name
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                     </Button>
                 )
@@ -56,7 +57,7 @@ const OperationListTable : React.FC<{data : [] , sn : number , mutate : () => vo
                     }
                     </Avatar>
                 }
-                {row.getValue("title")}
+                {row.getValue("name")}
             </div>
             ),
         },
@@ -78,8 +79,39 @@ const OperationListTable : React.FC<{data : [] , sn : number , mutate : () => vo
             <div className="capitalize">{row.getValue("description")}</div>
             ),
         },
+
+        {
+            accessorKey: "parent_category_id",
+            header: ({ column } : { column : any }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                        className="!px-0"
+                        >
+                            Parent Category
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                )
+            },
+            cell: ({ row  } : { row : any }) => (
+            <div className="capitalize">
+                {
+                    row.original?.parent_category?.name ?
+                    <Badge>
+                        {row.original?.parent_category?.name ?? ''}
+                    </Badge>
+                    : '-'
+                }
+            </div>
+            ),
+        },
        
     ]
+
+    useEffect(() => {
+        if(!isModalOpen) setSelectedRow(null)
+    },[isModalOpen])
 
     return(
         <>
@@ -124,7 +156,7 @@ const OperationListTable : React.FC<{data : [] , sn : number , mutate : () => vo
               }}
               
           />
-          <OperationActionModal
+          <OperationCategoryModal
               mode="edit"
               initialData={selectedRow}
               mutate={mutate}
@@ -135,4 +167,4 @@ const OperationListTable : React.FC<{data : [] , sn : number , mutate : () => vo
     )
 }
 
-export default OperationListTable
+export default CategoryListTable

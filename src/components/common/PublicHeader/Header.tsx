@@ -13,7 +13,6 @@ const AppHeader : React.FC = () => {
               <Link href={routes.LANDING_INDEX}>
                 <Image src={'/Decorsign.png'} alt="decorsign" width={150} height={150} className="w-[100px] h-[70px] object-contain" />
               </Link>
-              <div className="text-2xl font-bold">DECORSIGN</div>
               <div className="space-x-6">
                 <Link href={routes.LANDING_INDEX} className="hover:text-[#FFA500] text-[#1B365D]">Home</Link>
                 <Link href={routes.ABOUT_INDEX} className="hover:text-[#FFA500] text-[#1B365D]">About</Link>

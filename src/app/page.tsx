@@ -7,10 +7,9 @@ const LandingPage : React.FC = () => {
   return(
     <>
       <PublicView>
-        
         <HeroSection />
         <ServiceSection />
-        <ContactSection />
+        {/* <ContactSection /> */}
       </PublicView>
     </>
   )
