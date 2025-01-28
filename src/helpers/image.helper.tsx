@@ -1,0 +1,1 @@
+export { default as brandLogo } from "/Decorsign.png";

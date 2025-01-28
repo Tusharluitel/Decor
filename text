@@ -1,0 +1,147 @@
+import React from 'react';
+import { ChevronRight, Star, Facebook, Twitter, Instagram, Youtube, WhatsApp, MessageCircle } from 'lucide-react';
+
+const Website = () => {
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <nav className="bg-[#1B365D] text-white p-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="text-2xl font-bold">Prime Tiles</div>
+          <div className="space-x-6">
+            <a href="#" className="hover:text-[#FFA500]">About Us</a>
+            <a href="#" className="hover:text-[#FFA500]">Why Prime</a>
+            <a href="#" className="hover:text-[#FFA500]">Products</a>
+            <a href="#" className="hover:text-[#FFA500]">Contact</a>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <div className="relative bg-[#1B365D] text-white">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 gap-8 py-16">
+          <div className="space-y-6 p-8">
+            <h1 className="text-5xl font-bold">Discover The Finest<br/><span className="text-[#FFA500]">Prime Tiles with Style</span></h1>
+            <p className="text-lg">Immerse yourself in a world of exceptional quality and style</p>
+            <button className="bg-[#FFA500] text-white px-8 py-3 rounded-md hover:bg-[#FF8C00] transition">
+              Learn More
+            </button>
+          </div>
+          <div className="relative">
+            <div className="absolute inset-0 bg-[#FFA500] opacity-20 rounded-lg"></div>
+            <img src="/api/placeholder/600/400" alt="Showcase" className="rounded-lg shadow-lg" />
+          </div>
+        </div>
+      </div>
+
+      {/* Trending Tiles */}
+      <div className="max-w-7xl mx-auto py-16">
+        <h2 className="text-3xl font-bold text-[#1B365D] mb-8">Trending Tiles</h2>
+        <div className="grid grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="bg-white rounded-lg shadow-lg overflow-hidden">
+              <img src={`/api/placeholder/300/200`} alt={`Tile ${i}`} className="w-full h-48 object-cover" />
+              <div className="p-4">
+                <h3 className="text-[#1B365D] font-bold">Designer Tile {i}</h3>
+                <p className="text-gray-600">Premium quality ceramic tile</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Visualizer Section */}
+      <div className="bg-gray-50 py-16">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 gap-8 items-center">
+            <div className="space-y-4">
+              <h2 className="text-3xl font-bold text-[#1B365D]">Prime Visualizer</h2>
+              <p className="text-gray-600">Using our visualizer, you can effortlessly preview how different tile options would appear in various spaces.</p>
+              <button className="bg-[#1B365D] text-white px-6 py-2 rounded hover:bg-[#FFA500] transition">
+                Try Now
+              </button>
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow-lg">
+              <img src="/api/placeholder/500/300" alt="Visualizer" className="w-full rounded" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Testimonials */}
+      <div className="max-w-7xl mx-auto py-16">
+        <h2 className="text-3xl font-bold text-[#1B365D] mb-8">Our Testimonials</h2>
+        <div className="grid grid-cols-3 gap-6">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="bg-white p-6 rounded-lg shadow-lg">
+              <div className="flex items-center space-x-1 text-[#FFA500] mb-4">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} size={16} fill="#FFA500" />
+                ))}
+              </div>
+              <p className="text-gray-600 mb-4">"Exceptional quality and service. Highly recommended!"</p>
+              <div className="flex items-center space-x-3">
+                <img src={`/api/placeholder/40/40`} alt="Avatar" className="w-10 h-10 rounded-full" />
+                <div>
+                  <div className="font-bold text-[#1B365D]">Client Name</div>
+                  <div className="text-sm text-gray-500">Position, Company</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-[#1B365D] text-white py-16">
+        <div className="max-w-7xl mx-auto grid grid-cols-4 gap-8">
+          <div>
+            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
+            <div className="space-y-2">
+              <a href="#" className="block hover:text-[#FFA500]">About Us</a>
+              <a href="#" className="block hover:text-[#FFA500]">Products</a>
+              <a href="#" className="block hover:text-[#FFA500]">Contact</a>
+            </div>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold mb-4">Products</h3>
+            <div className="space-y-2">
+              <a href="#" className="block hover:text-[#FFA500]">Floor Tiles</a>
+              <a href="#" className="block hover:text-[#FFA500]">Wall Tiles</a>
+              <a href="#" className="block hover:text-[#FFA500]">Outdoor Tiles</a>
+            </div>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold mb-4">Contact</h3>
+            <div className="space-y-2">
+              <p>123 Tile Street</p>
+              <p>contact@primetiles.com</p>
+              <p>+1 234 567 890</p>
+            </div>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold mb-4">Follow Us</h3>
+            <div className="flex space-x-4">
+              <Facebook className="hover:text-[#FFA500] cursor-pointer" />
+              <Twitter className="hover:text-[#FFA500] cursor-pointer" />
+              <Instagram className="hover:text-[#FFA500] cursor-pointer" />
+              <Youtube className="hover:text-[#FFA500] cursor-pointer" />
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      {/* Chat and WhatsApp buttons */}
+      <div className="fixed bottom-4 right-4 space-y-4">
+        <button className="bg-[#FFA500] p-3 rounded-full shadow-lg hover:bg-[#FF8C00] transition">
+          <WhatsApp className="text-white" />
+        </button>
+        <button className="bg-[#1B365D] p-3 rounded-full shadow-lg hover:bg-[#2B466D] transition">
+          <MessageCircle className="text-white" />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Website;
