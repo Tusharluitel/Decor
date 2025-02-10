@@ -32,7 +32,7 @@ export const useTheme = () => {
     // Update theme color meta tag if you have one
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
-      metaThemeColor.setAttribute('content', newTheme === 'dark' ? '#ffffff' : '#ffffff');
+      metaThemeColor.setAttribute('content', newTheme === 'light' ? '#ffffff' : '#ffffff');
     }
   };
 
