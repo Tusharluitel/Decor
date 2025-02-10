@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocalStorage } from './use-localStorage';
 
-type Theme = 'light' | 'dark';
+type Theme = 'light' | 'light';
 
 export const useTheme = () => {
   // Get initial theme synchronously to avoid flicker
@@ -9,12 +9,12 @@ export const useTheme = () => {
     // Check localStorage first
     if(typeof window === 'undefined') return null;
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+    if (savedTheme && (savedTheme === 'light' || savedTheme === 'light')) {
       return savedTheme;
     }
     
     // Fall back to system perefered themes 
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'light' : 'light';
   };
 
   const [theme, setTheme] = useLocalStorage<Theme>('theme', getInitialTheme());
@@ -24,7 +24,7 @@ export const useTheme = () => {
     const root = window.document.documentElement;
     
     // Remove both themes first
-    root.classList.remove('light', 'dark');
+    root.classList.remove('light', 'light');
     
     // Add the new theme
     root.classList.add(newTheme);
@@ -32,7 +32,7 @@ export const useTheme = () => {
     // Update theme color meta tag if you have one
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
-      metaThemeColor.setAttribute('content', newTheme === 'dark' ? '#000000' : '#ffffff');
+      metaThemeColor.setAttribute('content', newTheme === 'dark' ? '#ffffff' : '#ffffff');
     }
   };
 
@@ -46,7 +46,7 @@ export const useTheme = () => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     
     const handleChange = (e: MediaQueryListEvent) => {
-      setTheme(e.matches ? 'dark' : 'light');
+      setTheme(e.matches ? 'light' : 'light');
     };
 
     // Add listener
@@ -59,7 +59,7 @@ export const useTheme = () => {
   // Toggle theme function
   const toggleTheme = () => {
     setTheme(prevTheme => {
-      const newTheme = prevTheme === 'light' ? 'dark' : 'light';
+      const newTheme = prevTheme === 'light' ? 'light' : 'light';
       // Immediately apply the theme
       applyTheme(newTheme);
       return newTheme;
