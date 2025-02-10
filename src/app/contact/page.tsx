@@ -81,7 +81,6 @@ const ContactPage = () => {
         <div className="bg-[#1B365D] text-white py-16">
           <div className="max-w-7xl mx-auto px-4">
             <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
-            <p className="text-lg">Let's discuss your next design project</p>
           </div>
         </div>
 
@@ -158,21 +157,23 @@ const ContactPage = () => {
                     <MapPin className="text-[#FFA500]" />
                     <div>
                       <h3 className="font-bold">Visit Us</h3>
-                      <p>123 Design Street, Creative City, ST 12345</p>
+                      <p>Gokarneshwor-8, Kathmandu, Nepal</p>
+                      <p>Setopul, Maitidevi, Kathmandu, Nepal</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
                     <Phone className="text-[#FFA500]" />
                     <div>
                       <h3 className="font-bold">Call Us</h3>
-                      <p>+1 234 567 890</p>
+                      <p>+977 9851105117</p>
+                      <p>+977 9851109317</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
                     <Mail className="text-[#FFA500]" />
                     <div>
                       <h3 className="font-bold">Email Us</h3>
-                      <p>info@decorsign.com</p>
+                      <p>decorsign10@gmail.com</p>
                     </div>
                   </div>
                 </div>
@@ -181,9 +182,7 @@ const ContactPage = () => {
               <div>
                 <h2 className="text-2xl font-bold text-[#1B365D] mb-6">Business Hours</h2>
                 <div className="space-y-2">
-                  <p><span className="font-bold">Monday - Friday:</span> 9:00 AM - 6:00 PM</p>
-                  <p><span className="font-bold">Saturday:</span> 10:00 AM - 4:00 PM</p>
-                  <p><span className="font-bold">Sunday:</span> Closed</p>
+                  <p><span className="font-bold">Sunday - Friday:</span> 10:00 AM - 7:00 PM</p>
                 </div>
               </div>
             </div>
