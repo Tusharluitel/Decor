@@ -184,6 +184,7 @@ const OperationCategoryModal: React.FC<OperationCategoryModalProps> = ({
         name: initialData?.name,
         description: initialData?.description,
         parent_category_id: initialData?.parent_category_id?.toString(),
+        slug: initialData?.slug
       });
       setRemoveBrochure(false);
     }
@@ -253,6 +254,18 @@ const OperationCategoryModal: React.FC<OperationCategoryModalProps> = ({
                 onChange={handleInputChange}
                 error={error?.description}
                 placeholder="Enter description"
+              />
+            </div>
+            <div>
+              <FormInput
+                label="Slug"
+                id="slug"
+                name="slug"
+                labelPosition="top"
+                value={formData?.slug ?? ''}
+                onChange={handleInputChange}
+                error={error?.slug}
+                placeholder="Enter slug"
               />
             </div>
             <div>

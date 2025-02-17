@@ -62,6 +62,24 @@ const CategoryListTable : React.FC<{data : [] , sn : number , mutate : () => voi
             ),
         },
         {
+            accessorKey: "slug",
+            header: ({ column } : { column : any }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                        className="!px-0"
+                        >
+                            Description
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                )
+            },
+            cell: ({ row  } : { row : any }) => (
+            <div>{row.getValue("slug")}</div>
+            ),
+        },
+        {
             accessorKey: "description",
             header: ({ column } : { column : any }) => {
                 return (
