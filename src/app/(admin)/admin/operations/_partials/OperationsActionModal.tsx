@@ -58,6 +58,7 @@ const OperationActionModal: React.FC<OperationActionModalProps> = ({
     const submitFormData = new FormData();
     submitFormData.append('title', formData.title || '');
     submitFormData.append('description', formData.description || '');
+    submitFormData.append('slug', formData.slug || '');
     if (formData.imageFile) {
       submitFormData.append('image', formData.imageFile);
     }
@@ -104,6 +105,7 @@ const OperationActionModal: React.FC<OperationActionModalProps> = ({
       setFormData({
         title: initialData?.title,
         description: initialData?.description,
+        slug: initialData?.slug,
       });
     }
   }, [initialData]);
@@ -138,6 +140,20 @@ const OperationActionModal: React.FC<OperationActionModalProps> = ({
                 required
               />
             </div>
+            <div className="">
+              <FormInput
+                label="Slug"
+                id="slug"
+                name="slug"
+                labelPosition="top"
+                value={formData?.slug ?? ''}
+                onChange={handleInputChange}
+                error={error?.slug}
+                placeholder="Enter slug"
+                required
+              />
+            </div>
+            
             <div className="">
               <FormInput
                 label="Description"
