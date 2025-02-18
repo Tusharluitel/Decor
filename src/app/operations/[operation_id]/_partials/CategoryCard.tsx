@@ -5,15 +5,17 @@ import Link from "next/link";
 
 const CategoryCard: React.FC<{
   category: {
+    id:number,
     name: string;
     image_path: string;
     description: string;
+    operation:Record<string,string>
   };
 }> = ({ category }) => {
   const categoryRoute = routes.CATEGORIES_INDIVIDUAL.replace(
     ":id",
-    category.operation?.id
-  ).replace(":categoryId", category.id);
+    category?.operation ? category?.operation?.id : ""
+  ).replace(":categoryId", category?.id?.toString());
   return (
     <>
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
