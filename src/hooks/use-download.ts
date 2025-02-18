@@ -1,4 +1,5 @@
 import { APP_BASE_URL } from "@/lib/constants";
+import { toast } from "./use-toast";
 
   // Function to download brochure
  export const useDownload = async (e: any, category_id:number) => {
@@ -16,6 +17,10 @@ import { APP_BASE_URL } from "@/lib/constants";
       );
 
       if (!response.ok) {
+        toast({
+          title: "Brochure Not Found !",
+          variant: "destructive",
+        });
         throw new Error("Download failed");
       }
 

@@ -26,7 +26,7 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({ data, mutate , title 
                     key={index + "pills"}
                     id={category?.id}
                     mutate={mutate}
-                    isActive={searchParams?.get("id") == category?.id}
+                    isActive={searchParams?.get("category_id") == category?.id}
                   >
                     {category?.name}
                   </CategoryPills>

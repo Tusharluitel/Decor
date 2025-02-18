@@ -26,7 +26,6 @@ const CategoryIndividualPage: React.FC<{
 
   const categoriesListByOperationIdURL = `${APP_BASE_URL}/api/public/category/list/${operation_id}`;
   const categoryIndividualDetailURL = `${APP_BASE_URL}/api/category/show/${category_id}`;
-  // const productListURL = `${APP_BASE_URL}/api/public/product/list/${category_id}`;
 
   const { data: CategoriesListByOperationId, mutate } = useSWR(
     categoriesListByOperationIdURL,
@@ -34,6 +33,17 @@ const CategoryIndividualPage: React.FC<{
   );
   const { data: categoryIndividualDetail, mutate: mutateIndividualDetail } =
     useSWR(categoryIndividualDetailURL, defaultFetcher);
+
+  const productListURL = categoryIndividualDetail
+    ? `${APP_BASE_URL}/api/public/product/list/${category_id}?${
+        searchParams?.has("category_id") && `category_id=${searchParams?.get("category_id")}`
+      }`
+    : null;
+
+  const { data: productList, mutate: mutateProductList } = useSWR(
+    productListURL,
+    defaultFetcher
+  );
 
   console.log(categoryIndividualDetail);
   useEffect(() => {
@@ -50,8 +60,6 @@ const CategoryIndividualPage: React.FC<{
       return category?.id == searchParams?.get("id");
     }
   );
-
-
 
   return (
     <>
@@ -102,8 +110,8 @@ const CategoryIndividualPage: React.FC<{
                       : "lg:grid-cols-3"
                   )}
                 >
-                  {categoryIndividualDetail?.data?.products?.length > 0 &&
-                    categoryIndividualDetail?.data?.products?.map(
+                  {productList?.data?.length > 0 &&
+                    productList?.data?.map(
                       (product: Record<string, any>, index: number) => {
                         return (
                           <ProductHorizontalCard
@@ -113,7 +121,7 @@ const CategoryIndividualPage: React.FC<{
                         );
                       }
                     )}
-                  {categoryIndividualDetail?.data?.products?.length == 0 &&
+                  {categoryIndividualDetail?.data?.length == 0 &&
                     "No Products to show"}
                 </div>
               </div>
