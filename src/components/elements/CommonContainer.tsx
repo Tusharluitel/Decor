@@ -5,7 +5,7 @@ const CommonContainer : React.FC<{
   return(
     <>
       <title>{title ?? 'DECORSIGN'}</title>
-      <div className="container mx-auto">
+      <div className="container mx-auto lg:px-0 px-6">
         {
           children
         }
