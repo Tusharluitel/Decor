@@ -15,7 +15,7 @@ const ServiceSection : React.FC = () => {
       <CommonContainer>
         <div className="py-16">
           <h2 className="text-3xl font-bold text-[#1B365D] mb-8">Our Services</h2>
-          <div className="grid md:grid-cols-3 grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
             {ServiceData?.data?.length> 0 && ServiceData?.data?.map((service : any, i : number) => (
               <Link key={i} className="bg-white rounded-lg shadow-lg overflow-hidden" href={`${routes.OPERATIONS_INDIVIDUAL.replace(':id' , service?.id)}`}>
                 <div className="relative h-64 w-full">
