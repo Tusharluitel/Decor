@@ -12,8 +12,8 @@ const CategoryCard: React.FC<{
 }> = ({ category }) => {
   const categoryRoute = routes.CATEGORIES_INDIVIDUAL.replace(
     ":id",
-    category.operation?.id
-  ).replace(":categoryId", category.id);
+    category?.operation?.id
+  ).replace(":categoryId", category?.id);
   return (
     <>
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
