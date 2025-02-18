@@ -10,6 +10,7 @@ import Link from "next/link";
 import { routes } from "@/lib/routes";
 import { use, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Banner from "@/components/elements/Banner";
 
 const OperationPage: React.FC<{
   params: Record<string, any> | any;
@@ -44,25 +45,18 @@ const OperationPage: React.FC<{
     <>
       <PublicView>
         <div className="pb-8">
-          <div className="bg-[#1B365D] text-white py-16 mb-8">
-            <div className="mx-auto px-4">
-              <CommonContainer>
-                <h1 className="text-4xl font-bold mb-4">
-                  {CategoriesListByOperationId?.data?.at(0)?.operation?.title ??
-                    "Product List"}
-                </h1>
-                <p className="text-lg">
-                  {
-                    CategoriesListByOperationId?.data?.at(0)?.operation
-                      ?.description
-                  }
-                </p>
-              </CommonContainer>
-            </div>
-          </div>
+          <Banner
+            title={CategoriesListByOperationId?.data?.at(0)?.operation?.title}
+            description={
+              CategoriesListByOperationId?.data?.at(0)?.operation?.description
+            }
+          />
           <CommonContainer>
             {CategoriesListByOperationId && (
+              <>
+              <h2 className="text-[#1B365D] font-semibold text-2xl mb-4">{CategoriesListByOperationId?.data?.at(0)?.operation?.title}</h2>
               <CategoryList categoryListData={CategoriesListByOperationId} />
+              </>
             )}
 
             {/* <div className="flex lg:flex-row flex-col gap-6 relative px-4">

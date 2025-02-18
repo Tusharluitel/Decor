@@ -13,6 +13,8 @@ import { Download } from "lucide-react";
 import ProductHorizontalCard from "./_partials/ProductHorizontalCard";
 import { cn } from "@/lib/utils";
 import { useDownload } from "@/hooks/use-download";
+import Banner from "@/components/elements/Banner";
+import { pluralize } from "@/helpers/string.helper";
 
 const CategoryIndividualPage: React.FC<{
   params: Record<string, any> | any;
@@ -36,7 +38,8 @@ const CategoryIndividualPage: React.FC<{
 
   const productListURL = categoryIndividualDetail
     ? `${APP_BASE_URL}/api/public/product/list/${category_id}?${
-        searchParams?.has("category_id") && `category_id=${searchParams?.get("category_id")}`
+        searchParams?.has("category_id") &&
+        `category_id=${searchParams?.get("category_id")}`
       }`
     : null;
 
@@ -64,31 +67,24 @@ const CategoryIndividualPage: React.FC<{
   return (
     <>
       <PublicView>
-        <div className="bg-[#1B365D] text-white py-16 mb-8">
-          <div className="mx-auto px-4">
-            <CommonContainer>
-              <div className="flex justify-between">
-                <div>
-                  <h1 className="text-4xl font-bold mb-4">
-                    {categoryIndividualDetail?.data?.name}
-                  </h1>
-                  <p className="text-lg">
-                    {categoryIndividualDetail?.data?.description}
-                  </p>
-                </div>
-                <Button
-                  onClick={(e) => useDownload(e, category_id)}
-                  className="bg-amber-500 hover:bg-amber-600 text-white flex items-center gap-2 px-6 py-2 rounded-md"
-                >
-                  <Download size={20} />
-                  Download Brochure
-                </Button>
-              </div>
-            </CommonContainer>
-          </div>
-        </div>
+        <Banner
+          title={categoryIndividualDetail?.data?.name}
+          description={categoryIndividualDetail?.data?.description}
+        >
+          <Button
+            onClick={(e) => useDownload(e, category_id)}
+            className="bg-amber-500 hover:bg-amber-600 text-white flex items-center gap-2 px-6 py-2 rounded-md"
+          >
+            <Download size={20} />
+            Download Brochure
+          </Button>
+        </Banner>
         <CommonContainer>
           <div className="px-4 pb-8">
+            <p className="mb-8">
+              Showing all {productList ? productList?.meta?.total : 0}{" "}
+              {pluralize("result", productList?.meta?.total)}
+            </p>
             <div className="flex md:flex-row flex-col gap-6 relative">
               {categoryIndividualDetail?.data?.children_categories &&
                 categoryIndividualDetail?.data?.children_categories.length >
