@@ -23,7 +23,7 @@ const ProductCard : React.FC<{
                 </div>
                 <div className="p-4">
                     <h3 className="font-semibold text-[#1B365D]">{product.name}</h3>
-                    <p className="text-sm text-gray-500 clamp-3">{product?.description}</p>
+                    {/* <p className="text-sm text-gray-500 clamp-3">{product?.description}</p> */}
                 </div>
             </div>
         </>

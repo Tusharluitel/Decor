@@ -7,7 +7,7 @@ const CategoryList : React.FC<{
 }) => {
     return(
         <div className="flex-1">
-            <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-6">
             {categoryListData?.map((product, index) => {
                 return(
                     <>
