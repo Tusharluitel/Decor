@@ -37,7 +37,7 @@ export function AppSideBar() {
           asChild
         >
         </Button>
-        <Link href="/dashboard" className="block py-1">
+        <Link href="/" className="block py-1">
           <Image src={'/Decorsign.png'} width={100} height={70} alt="brand-logo" className="mx-auto block w-[100px] h-[70px] object-contain"/>
         </Link>
         <Menu isOpen={getOpenState()} />
