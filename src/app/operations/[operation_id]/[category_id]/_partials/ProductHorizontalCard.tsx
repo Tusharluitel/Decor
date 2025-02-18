@@ -10,7 +10,7 @@ const ProductHorizontalCard = ({
   product: Record<string, any>;
 }) => {
   return (
-    <Card className="p-4 overflow-hidden max-w-2xl  group relative">
+    <Card className="p-4 overflow-hidden max-w-2xl relative">
       <div className="flex gap-2">
         {/* Image Section with optimized transitions */}
         <div className="flex justify-center items-center w-[160px] h-[160px] bg-[#ECECEC]">
@@ -34,7 +34,7 @@ const ProductHorizontalCard = ({
           </div>
 
           {/* Optimized overlay transition */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100" />
+          {/* <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100" /> */}
         </div>
 
         <div className="w-4/6">
