@@ -23,7 +23,7 @@ const CategoryPills = ({
             params.delete(key);
         });
         
-        params.set('id', id.toString());
+        params.set('category_id', id.toString());
         
         router.push(`?${params.toString()}`);
         mutate();

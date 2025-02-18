@@ -1,33 +1,48 @@
-const ProductCard : React.FC<{
-    product : {
-        name : string
-        image_path : string , 
-        description : string
-    }
-}
-> = ({
-    product
-}) => {
-    return(
-        <>
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-                <div className="relative group">
-                    <img 
-                        src={product?.image_path} 
-                        alt={product.name} 
-                        className="w-full h-64 object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300">
-                        
-                    </div>
-                </div>
-                <div className="p-4">
-                    <h3 className="font-semibold text-[#1B365D]">{product.name}</h3>
-                    <p className="text-sm text-gray-500 clamp-3">{product?.description}</p>
-                </div>
-            </div>
-        </>
-    )
-}
+import { useDownload } from "@/hooks/use-download";
+import { routes } from "@/lib/routes";
+import { Download } from "lucide-react";
+import Link from "next/link";
 
-export default ProductCard
+const CategoryCard: React.FC<{
+  category: {
+    name: string;
+    image_path: string;
+    description: string;
+  };
+}> = ({ category }) => {
+  const categoryRoute = routes.CATEGORIES_INDIVIDUAL.replace(
+    ":id",
+    category.operation?.id
+  ).replace(":categoryId", category.id);
+  return (
+    <>
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="relative group">
+          <Link href={categoryRoute}>
+            <img
+              src={category?.image_path}
+              alt={category.name}
+              className="w-full h-64 object-cover"
+            />
+          </Link>
+
+          {/* <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div> */}
+        </div>
+        <div className="flex justify-between p-4">
+          <Link href={categoryRoute}>
+            <h3 className="font-semibold text-[#1B365D] hover:underline">{category.name}</h3>
+          </Link>
+          <div
+            className="bg-primary py-1 px-2 rounded-md"
+            onClick={(e) => useDownload(e, category.id)}
+          >
+            <Download className="text-white w-4" />
+          </div>
+          {/* <p className="text-sm text-gray-500 clamp-3">{category?.description}</p> */}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default CategoryCard;
