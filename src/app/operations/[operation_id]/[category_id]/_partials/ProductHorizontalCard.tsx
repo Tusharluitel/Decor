@@ -11,11 +11,11 @@ const ProductHorizontalCard = ({
 }) => {
   return (
     <Card className="p-4 overflow-hidden max-w-2xl relative">
-      <div className="flex gap-2">
+      <div className="flex gap-4">
         {/* Image Section with optimized transitions */}
         <div className="flex justify-center items-center w-[160px] h-[160px] bg-[#ECECEC]">
           {/* <div className="border border-red-700 w-[160px] h-[160px] bg-[#ECECEC] relative overflow-hidden will-change-transform transition-[width] ease-in-out duration-300 group-hover:w-full group-hover:absolute group-hover:inset-0"> */}
-          <div className="relative  w-[100px] h-[100px]">
+          <div className="relative  w-[160px] h-[160px]">
             <Image
               src={product?.image_path}
               alt={product?.name}
@@ -50,7 +50,7 @@ const ProductHorizontalCard = ({
         </div>
       </div>
 
-      <Separator className="my-4" />
+      <Separator className="my-4 text-gray-600 h-[1.2px]" />
 
       {/* Content Section with faster color transitions */}
       <div className="flex-1 relative z-10 transition-colors duration-200 ease-in-out group-hover:text-white">

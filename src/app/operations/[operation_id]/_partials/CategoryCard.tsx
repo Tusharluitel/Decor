@@ -35,7 +35,7 @@ const CategoryCard: React.FC<{
             <h3 className="font-semibold text-[#1B365D] hover:underline">{category.name}</h3>
           </Link>
           <div
-            className="bg-primary py-1 px-2 rounded-md"
+            className="bg-primary py-1 px-2 rounded-md cursor-pointer"
             onClick={(e) => useDownload(e, category.id)}
           >
             <Download className="text-white w-4" />

@@ -25,7 +25,7 @@ const Banner = ({
     >
       <div className="mx-auto px-4">
         <CommonContainer>
-          <div className="flex flex-wrap gap-y-4 justify-between">
+          <div className="flex md:flex-nowrap flex-wrap gap-y-4 justify-between md:gap-24 items-center">
             <div>
               <h1 className="text-4xl font-bold mb-4">{title}</h1>
               <p className="text-lg">{description}</p>
