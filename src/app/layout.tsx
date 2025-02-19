@@ -1,23 +1,17 @@
 import type { Metadata } from "next";
-import { GeistSans } from 'geist/font/sans';
-import { GeistMono } from 'geist/font/mono';
-
+import { Mulish } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 
-// const geistSans = GeistSans({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-//   weight: ["400", "500", "600", "700"],
-//   display: "swap",
-// });
+const mulish = Mulish({
+  variable: "--font-mulish",
+  subsets: ["latin"],
+});
 
-// const geistMono = GeistMono({
-//   variable: "--font-geist-mono", 
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
 //   subsets: ["latin"],
-//   weight: ["400", "500", "600"],
-//   display: "swap",
 // });
 
 export const metadata: Metadata = {
@@ -33,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        // className={`${GeistSans.className} ${GeistMono.className} antialiased`}
+        className={`${mulish.variable} antialiased`}
       >
         <Suspense>
           <Toaster />
