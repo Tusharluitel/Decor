@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { useDownload } from "@/hooks/use-download";
 import Banner from "@/components/elements/Banner";
 import { pluralize } from "@/helpers/string.helper";
+import Pagination from "@/components/elements/Pagination";
 
 const CategoryIndividualPage: React.FC<{
   params: Record<string, any> | any;
@@ -37,10 +38,7 @@ const CategoryIndividualPage: React.FC<{
     useSWR(categoryIndividualDetailURL, defaultFetcher);
 
   const productListURL = categoryIndividualDetail
-    ? `${APP_BASE_URL}/api/public/product/list/${category_id}?${
-        searchParams?.has("category_id") &&
-        `category_id=${searchParams?.get("category_id")}`
-      }`
+    ? `${APP_BASE_URL}/api/public/product/list/${category_id}?${searchParams.toString()}`
     : null;
 
   const { data: productList, mutate: mutateProductList } = useSWR(
@@ -63,6 +61,13 @@ const CategoryIndividualPage: React.FC<{
       return category?.id == searchParams?.get("id");
     }
   );
+
+  const handleFilter = (key: string, value: string) => {
+    const currentParams = new URLSearchParams(searchParams.toString());
+    currentParams.set(key, value);
+    router.replace(`?${currentParams.toString()}`);
+    mutateProductList();
+  };
 
   return (
     <>
@@ -106,20 +111,32 @@ const CategoryIndividualPage: React.FC<{
                       : "lg:grid-cols-3"
                   )}
                 >
-                  {productList?.data?.length > 0 &&
-                    productList?.data?.map(
-                      (product: Record<string, any>, index: number) => {
-                        return (
-                          <ProductHorizontalCard
-                            product={product}
-                            key={index}
-                          />
-                        );
-                      }
-                    )}
-                  {categoryIndividualDetail?.data?.length == 0 &&
-                    "No Products to show"}
+                  {productList?.data?.length > 0 && (
+                    <>
+                      {productList?.data?.map(
+                        (product: Record<string, any>, index: number) => {
+                          return (
+                            <ProductHorizontalCard
+                              product={product}
+                              key={index}
+                            />
+                          );
+                        }
+                      )}
+                    </>
+                  )}
+
+                  {productList?.data?.length == 0 && "No Products to show"}
                 </div>
+
+                {productList?.meta && (
+                  <Pagination
+                    meta={productList?.meta}
+                    onPageChange={(page) =>
+                      handleFilter("page", page.toString())
+                    }
+                  />
+                )}
               </div>
             </div>
           </div>
