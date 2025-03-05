@@ -5,17 +5,18 @@ import Link from "next/link";
 
 const CategoryCard: React.FC<{
   category: {
-    id:number,
+    id: number;
+    slug: string;
     name: string;
     image_path: string;
     description: string;
-    operation:Record<string,string>
+    operation: Record<string, string>;
   };
 }> = ({ category }) => {
   const categoryRoute = routes.CATEGORIES_INDIVIDUAL.replace(
-    ":id",
-    category?.operation ? category?.operation?.id : ""
-  ).replace(":categoryId", category?.id?.toString());
+    ":slug",
+    category?.operation ? category?.operation?.slug : ""
+  ).replace(":categorySlug", category?.slug);
   return (
     <>
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -32,7 +33,9 @@ const CategoryCard: React.FC<{
         </div>
         <div className="flex justify-between p-4">
           <Link href={categoryRoute}>
-            <h3 className="font-semibold text-[#1B365D] hover:underline">{category.name}</h3>
+            <h3 className="font-semibold text-[#1B365D] hover:underline">
+              {category.name}
+            </h3>
           </Link>
           <div
             className="bg-primary py-1 px-2 rounded-md cursor-pointer"
