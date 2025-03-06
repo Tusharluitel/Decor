@@ -95,7 +95,6 @@ const CategoryIndividualPage: React.FC<{
                   0 && (
                   <CategorySidebar
                     data={categoryIndividualDetail?.data?.children_categories}
-                    mutate={mutate}
                     title="Sub Categories"
                   />
                 )}

@@ -5,7 +5,6 @@ import CategoryPills from "./CategoryPills";
 
 interface CategorySidebarProps {
   data: Record<string, any>[];
-  mutate: () => void;
   title? : string
 }
 
