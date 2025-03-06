@@ -27,7 +27,7 @@ const CategoryIndividualPage: React.FC<{
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const categoryIndividualDetailURL = `${APP_BASE_URL}/api/category/show-by-slug/${category_slug}`;
+  const categoryIndividualDetailURL = `${APP_BASE_URL}/api/public/category/show-by-slug/${category_slug}`;
 
   const { data: categoryIndividualDetail, mutate: mutateIndividualDetail } =
     useSWR(categoryIndividualDetailURL, defaultFetcher);
