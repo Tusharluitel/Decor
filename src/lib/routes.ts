@@ -8,8 +8,8 @@ export const routes = {
   ADMIN_LOGIN : '/admin/auth/login',
   ADMIN_DASHBOARD : '/admin/dashboard',
   CATEGORIES_INDEX : '/admin/categories',
-  CATEGORIES_INDIVIDUAL : '/operations/:id/:categoryId' ,
+  CATEGORIES_INDIVIDUAL : '/operations/:slug/:categorySlug' ,
   OPERATIONS_INDEX : '/admin/operations' ,
-  OPERATIONS_INDIVIDUAL : '/operations/:id' ,
+  OPERATIONS_INDIVIDUAL : '/operations/:slug' ,
   PRODUCTS_INDEX : '/admin/products'
 }

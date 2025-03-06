@@ -14,7 +14,7 @@ import ProductHorizontalCard from "./_partials/ProductHorizontalCard";
 import { cn } from "@/lib/utils";
 import { useDownload } from "@/hooks/use-download";
 import Banner from "@/components/elements/Banner";
-import { pluralize } from "@/helpers/string.helper";
+import { capitalize, pluralize } from "@/helpers/string.helper";
 import Pagination from "@/components/elements/Pagination";
 
 const CategoryIndividualPage: React.FC<{
@@ -22,23 +22,18 @@ const CategoryIndividualPage: React.FC<{
 }> = ({ params }) => {
   const resolvedParams: any = use(params);
 
-  const operation_id = resolvedParams?.operation_id;
-  const category_id = resolvedParams?.category_id;
+  const operation_slug = resolvedParams?.operation_slug;
+  const category_slug = resolvedParams?.category_slug;
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const categoriesListByOperationIdURL = `${APP_BASE_URL}/api/public/category/list/${operation_id}`;
-  const categoryIndividualDetailURL = `${APP_BASE_URL}/api/category/show/${category_id}`;
+  const categoryIndividualDetailURL = `${APP_BASE_URL}/api/category/show-by-slug/${category_slug}`;
 
-  const { data: CategoriesListByOperationId, mutate } = useSWR(
-    categoriesListByOperationIdURL,
-    defaultFetcher
-  );
   const { data: categoryIndividualDetail, mutate: mutateIndividualDetail } =
     useSWR(categoryIndividualDetailURL, defaultFetcher);
 
   const productListURL = categoryIndividualDetail
-    ? `${APP_BASE_URL}/api/public/product/list/${category_id}?${searchParams.toString()}`
+    ? `${APP_BASE_URL}/api/public/product/list-by-slug/${category_slug}?${searchParams.toString()}`
     : null;
 
   const { data: productList, mutate: mutateProductList } = useSWR(
@@ -48,19 +43,10 @@ const CategoryIndividualPage: React.FC<{
 
   console.log(categoryIndividualDetail);
   useEffect(() => {
-    if (!operation_id) {
+    if (!operation_slug) {
       router.replace(routes.LANDING_INDEX);
     }
   }, []);
-
-  const filteredCategories = CategoriesListByOperationId?.data?.filter(
-    (category: any) => {
-      if (!searchParams?.get("id")) {
-        return true;
-      }
-      return category?.id == searchParams?.get("id");
-    }
-  );
 
   const handleFilter = (key: string, value: string) => {
     const currentParams = new URLSearchParams(searchParams.toString());
@@ -75,9 +61,22 @@ const CategoryIndividualPage: React.FC<{
         <Banner
           title={categoryIndividualDetail?.data?.name}
           description={categoryIndividualDetail?.data?.description}
+          breadcrumbs={[
+            {
+              label: capitalize(operation_slug?.replace("-", " ")),
+              route: routes.OPERATIONS_INDIVIDUAL.replace(
+                ":slug",
+                operation_slug
+              ),
+            },
+            {
+              label: categoryIndividualDetail?.data?.name,
+              route: "#",
+            },
+          ]}
         >
           <Button
-            onClick={(e) => useDownload(e, category_id)}
+            onClick={(e) => useDownload(e, category_slug)}
             className="bg-amber-500 hover:bg-amber-600 text-white flex items-center gap-2 px-6 py-2 rounded-md"
           >
             <Download size={20} />

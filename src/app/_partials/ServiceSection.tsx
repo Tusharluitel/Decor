@@ -9,7 +9,6 @@ import useSWR from "swr"
 
 const ServiceSection : React.FC = () => {
   const { data : ServiceData } = useSWR(`${APP_BASE_URL}/api/operations/list` , defaultFetcher);
-  console.log(ServiceData)
   return(
     <>
       <CommonContainer>
@@ -17,7 +16,7 @@ const ServiceSection : React.FC = () => {
           <h2 className="text-3xl font-bold text-[#1B365D] mb-8">Our Services</h2>
           <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
             {ServiceData?.data?.length> 0 && ServiceData?.data?.map((service : any, i : number) => (
-              <Link key={i} className="bg-white rounded-lg shadow-lg overflow-hidden" href={`${routes.OPERATIONS_INDIVIDUAL.replace(':id' , service?.id)}`}>
+              <Link key={i} className="bg-white rounded-lg shadow-lg overflow-hidden" href={`${routes.OPERATIONS_INDIVIDUAL.replace(':slug' , service?.slug)}`}>
                 <div className="relative h-64 w-full">
                   <Image src={service?.image_path} alt={service.title} className="object-cover object-center " fill />
                 </div>
