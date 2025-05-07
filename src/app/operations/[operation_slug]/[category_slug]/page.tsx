@@ -76,7 +76,7 @@ const CategoryIndividualPage: React.FC<{
           ]}
         >
           <Button
-            onClick={(e) => useDownload(e, category_slug)}
+            onClick={(e) => useDownload(e, categoryIndividualDetail?.data?.id)}
             className="bg-amber-500 hover:bg-amber-600 text-white flex items-center gap-2 px-6 py-2 rounded-md"
           >
             <Download size={20} />
