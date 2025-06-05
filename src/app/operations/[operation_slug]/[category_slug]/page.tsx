@@ -5,7 +5,7 @@ import { APP_BASE_URL } from "@/lib/constants";
 import useSWR from "swr";
 import { defaultFetcher } from "@/helpers/fetch.helper";
 import { routes } from "@/lib/routes";
-import { use, useEffect } from "react";
+import { use, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import CategorySidebar from "../_partials/CategorySidebar";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import { useDownload } from "@/hooks/use-download";
 import Banner from "@/components/elements/Banner";
 import { capitalize, pluralize } from "@/helpers/string.helper";
 import Pagination from "@/components/elements/Pagination";
+import ImageGalleryModal from "./_partials/ImageGalleryModal";
 
 const CategoryIndividualPage: React.FC<{
   params: Record<string, any> | any;
@@ -26,7 +27,14 @@ const CategoryIndividualPage: React.FC<{
   const category_slug = resolvedParams?.category_slug;
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [galleryImages, setGalleryImages] = useState<any[] | null>(null);
 
+  const handleProductClick = (product: Record<string, any>) => {
+    if (product.product_images && product.product_images.length > 0) {
+      setGalleryImages(product.product_images);
+    }
+  };
+  const closeGallery = () => setGalleryImages(null);
   const categoryIndividualDetailURL = `${APP_BASE_URL}/api/public/category/show-by-slug/${category_slug}`;
 
   const { data: categoryIndividualDetail, mutate: mutateIndividualDetail } =
@@ -41,7 +49,8 @@ const CategoryIndividualPage: React.FC<{
     defaultFetcher
   );
 
-  console.log(categoryIndividualDetail);
+  console.log("product list: ", productList);
+
   useEffect(() => {
     if (!operation_slug) {
       router.replace(routes.LANDING_INDEX);
@@ -86,7 +95,9 @@ const CategoryIndividualPage: React.FC<{
         <CommonContainer>
           <div className="px-4 pb-8">
             <p className="mb-8">
-              Showing all {productList ? productList?.meta?.total : 0}{" "}
+              Showing {productList ? productList?.meta?.from : 0} to{" "}
+              {productList ? productList?.meta?.to : 0} of{" "}
+              {productList ? productList?.meta?.total : 0}{" "}
               {pluralize("result", productList?.meta?.total)}
             </p>
             <div className="flex md:flex-row flex-col gap-6 relative">
@@ -117,6 +128,7 @@ const CategoryIndividualPage: React.FC<{
                             <ProductHorizontalCard
                               product={product}
                               key={index}
+                              onClick={() => handleProductClick(product)}
                             />
                           );
                         }
@@ -139,6 +151,9 @@ const CategoryIndividualPage: React.FC<{
             </div>
           </div>
         </CommonContainer>
+        {galleryImages && (
+          <ImageGalleryModal images={galleryImages} onClose={closeGallery} />
+        )}
       </PublicView>
     </>
   );

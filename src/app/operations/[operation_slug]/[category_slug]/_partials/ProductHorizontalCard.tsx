@@ -6,8 +6,10 @@ import { Separator } from "@/components/ui/separator";
 
 const ProductHorizontalCard = ({
   product,
+  onClick,
 }: {
   product: Record<string, any>;
+  onClick: () => void;
 }) => {
   return (
     <Card className="p-4 overflow-hidden max-w-2xl relative">
@@ -15,22 +17,29 @@ const ProductHorizontalCard = ({
         {/* Image Section with optimized transitions */}
         <div className="flex justify-center items-center w-[160px] h-[160px] bg-[#ECECEC]">
           {/* <div className="border border-red-700 w-[160px] h-[160px] bg-[#ECECEC] relative overflow-hidden will-change-transform transition-[width] ease-in-out duration-300 group-hover:w-full group-hover:absolute group-hover:inset-0"> */}
-          <div className="relative  w-[160px] h-[160px]">
-            <Image
-              src={product?.image_path}
-              alt={product?.name}
-              className="object-contain"
-              // className="object-cover transform transition-transform ease-in-out duration-300 group-hover:scale-105"
-              fill
-              priority
-            />
-            {/* {product?.category && (
+          <div
+            onClick={onClick}
+            className={`${
+              product?.product_images?.length > 0 && " cursor-pointer"
+            }`}
+          >
+            <div className="relative  w-[160px] h-[160px]">
+              <Image
+                src={product?.image_path}
+                alt={product?.name}
+                className="object-contain"
+                // className="object-cover transform transition-transform ease-in-out duration-300 group-hover:scale-105"
+                fill
+                priority
+              />
+              {/* {product?.category && (
             <Badge 
-              className="absolute top-3 left-3 bg-amber-500 text-white border-none z-10"
+            className="absolute top-3 left-3 bg-amber-500 text-white border-none z-10"
             >
-              {product.category}
+            {product.category}
             </Badge>
-          )} */}
+            )} */}
+            </div>
           </div>
 
           {/* Optimized overlay transition */}
