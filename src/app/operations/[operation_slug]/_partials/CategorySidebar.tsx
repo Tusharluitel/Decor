@@ -5,10 +5,14 @@ import CategoryPills from "./CategoryPills";
 
 interface CategorySidebarProps {
   data: Record<string, any>[];
-  title? : string
+  title?: string;
 }
 
-const CategorySidebar: React.FC<CategorySidebarProps> = ({ data, mutate , title = 'Categories' }) => {
+const CategorySidebar: React.FC<CategorySidebarProps> = ({
+  data,
+  mutate,
+  title = "Categories",
+}) => {
   const searchParams = useSearchParams();
 
   return (
@@ -19,6 +23,13 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({ data, mutate , title 
             <h3 className="font-medium">{title}</h3>
             <div className="w-full h-2 border-b border-b-gray-200 mb-4"></div>
             <div className="flex gap-2 flex-wrap">
+              <CategoryPills
+                id={""}
+                mutate={mutate}
+                isActive={!searchParams?.get("category_id")}
+              >
+                All
+              </CategoryPills>
               {data?.length > 0 &&
                 data?.map((category, index) => (
                   <CategoryPills
@@ -30,9 +41,7 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({ data, mutate , title 
                     {category?.name}
                   </CategoryPills>
                 ))}
-                {
-                  data?.length == 0 && `No ${title} to show`
-                }
+              {data?.length == 0 && `No ${title} to show`}
             </div>
           </div>
         </div>
