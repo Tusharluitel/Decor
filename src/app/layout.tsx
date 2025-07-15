@@ -5,7 +5,6 @@ import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { GoogleTagManager } from "@next/third-parties/google";
 
-
 const mulish = Mulish({
   variable: "--font-mulish",
   subsets: ["latin"],
@@ -28,10 +27,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <GoogleTagManager gtmId="GTM-K9282VX2" />
-      <body
-        className={`${mulish.variable} antialiased`}
-      >
+      <GoogleTagManager gtmId="G-MX7SFJPWN3" />
+      <body className={`${mulish.variable} antialiased`}>
         <Suspense>
           <Toaster />
           {children}
